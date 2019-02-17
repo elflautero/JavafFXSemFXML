@@ -11,6 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -44,10 +46,37 @@ public class ControladorPrincipal implements Initializable {
 
 	Pane pSuperior = new Pane();
 	
-	Button btn = new Button("clique");
+	Pane p1;
+	Pane p2;
 	
+	
+	// 1 "/img/ic_add_location_black_36dp.png"
+	// 2 "/img/ic_zoom_out_map_black_48dp.png"
+		
+	//Image img = new Image(ControladorPrincipal.class.getResourceAsStream("/img/ic_zoom_out_map_black_24dp.png"));
+	
+	//ImageView	imgView = new ImageView();
+	//imgView.setImage(img);
+	
+	
+	Button btn1 = new Button();
+	Button btn2 = new Button("clique");
+	
+	String strLinkImg = "/img/";
 	
 	public void initialize(URL url, ResourceBundle rb) {
+		
+		
+		
+		btn1.setGraphic(
+				new ImageView(
+						new Image(
+								this.getClass().getResourceAsStream(strLinkImg + "ic_add_location_black_50dp.png")
+								)));
+		
+		//"/img/ic_zoom_out_map_black_24dp.png"
+		
+		// "/img/document-delete.svg"
 		
 		wv  = new WebView();
 		WebEngine webEngine = wv.getEngine();
@@ -65,7 +94,9 @@ public class ControladorPrincipal implements Initializable {
 		pLD2.setPrefSize(90, 300);
 		pLD2.setStyle("-fx-background-color: blue;");
 		
-		pLD1.getChildren().add(btn);
+		pLD1.getChildren().add(btn1);
+		
+		pLD2.getChildren().add(btn2);
 		
 		tabLD1.setContent(pLD1);
 		tabLD2.setContent(pLD2);
@@ -116,23 +147,85 @@ public class ControladorPrincipal implements Initializable {
 		AnchorPane.setLeftAnchor(spCentroTabPanes, 110.0);
 		AnchorPane.setBottomAnchor(spCentroTabPanes, 105.0);
 		
-		Pane p = new Pane ();
-		p.setStyle("-fx-background-color: red;");
-		
-		spCentroTabPanes.getChildren().add(p);
 		spCentroTabPanes.setDisable(true);
 	    StackPane.setAlignment(spCentroTabPanes, Pos.TOP_CENTER);
 	    
 		apPrincipal.getChildren().addAll( wv, tpLateralEsquera, tpLateralDireita, spConversorCoordenadas, pSuperior,spCentroTabPanes);
 		
-		btn.setOnAction(new EventHandler<ActionEvent>() {
+		
+		
+		btn1.setOnAction(new EventHandler<ActionEvent>() {
+			
 		    @Override public void handle(ActionEvent e) {
+		    	
+		    	if (p1 == null) {
+		    		p1 = new Pane ();
+		    		p1.setStyle("-fx-background-color: red;");
+				
+					spCentroTabPanes.getChildren().add(p1);
+					p1.setTranslateY(800.0);
+					
+					if (p2 != null) {
+						p2.setTranslateY(800.0);
+					}
+					
+		    	} // fim if 1
+		        if (p1.getTranslateY() == 0.0) {
+		        	p1.setTranslateY(800);
+		        	
+		        	if (p2 != null) {
+						p2.setTranslateY(800.0);
+					}
+		        	
+		        }
+		        	else {
+		        		p1.setTranslateY(0.0);
+		        		
+		        		if (p2 != null) {
+							p2.setTranslateY(800.0);
+						}
+		
+		    	} // fim else
+		    }// fim handle
 		     
-		        if (p.getTranslateY() == 0.0)
-		        	p.setTranslateY(800);
-		        		else 
-		        			p.setTranslateY(0.0);
-		    }
+		    
+		});
+
+		btn2.setOnAction(new EventHandler<ActionEvent>() {
+			
+		    @Override public void handle(ActionEvent e) {
+		    	
+		    	if (p2 == null) {
+		    		p2 = new Pane ();
+		    		p2.setStyle("-fx-background-color: blue;");
+				  
+					spCentroTabPanes.getChildren().add(p2);
+					p2.setTranslateY(800.0);
+					
+					if (p1 != null) {
+						p1.setTranslateY(800.0);
+					}
+					
+		    	} // fim if 1
+		        if (p2.getTranslateY() == 0.0) {
+		        	p2.setTranslateY(800);
+		        	
+		        	if (p1 != null) {
+						p1.setTranslateY(800.0);
+					}
+		        	
+		        }
+		        	else {
+		        		p2.setTranslateY(0.0);
+		        		
+		        		if (p1 != null) {
+							p1.setTranslateY(800.0);
+						}
+		        	
+		    	} // fim else
+		    }// fim handle
+		     
+		    
 		});
 		
 	}
